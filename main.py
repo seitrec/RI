@@ -44,9 +44,7 @@ def buildReversedIndex(frequencies):
         export.write(json.dumps(invertFreq, indent=4))
     return invertFreq
 
-
-
-if __name__ == "__main__":
+def loadJsons():
     if not os.path.isfile("../CACM/freq.json"):
         frequencies = buildIndex()
     else:
@@ -57,3 +55,7 @@ if __name__ == "__main__":
     else:
         with open("../CACM/revertFreq.json", "r") as revF:
             revertFreq = json.loads(revF.read())
+    return frequencies, revertFreq
+
+if __name__ == "__main__":
+    loadJsons()
