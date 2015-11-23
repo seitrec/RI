@@ -20,14 +20,14 @@ def main(files, common_words):
                          ]
                    for key in dict}
 
-    with open("C:/Users/corentin/Desktop/CACM/freq.json", "w") as export:
+    with open("../CACM/freq.json", "w") as export:
         export.write(json.dumps(frequencies, indent=4))
     return frequencies
 
 def buildIndex():
-    with open("C:/Users/corentin/Desktop/CACM/cacm.all", "r") as cacm:
+    with open("../CACM/cacm.all", "r") as cacm:
         collection = cacm.read()
-        with open("C:/Users/corentin/Desktop/CACM/common_words", "r") as cw:
+        with open("../CACM/common_words", "r") as cw:
             common_words  = replacePunct(cw.read())
             files = [item.split("\n.") for item in collection.split(".I ")]
             main(files, common_words)
@@ -40,20 +40,20 @@ def buildReversedIndex(frequencies):
                 invertFreq[freq[0]] = [(key, freq[1])]
             else:
                 invertFreq[freq[0]] += [(key, freq[1])]
-    with open("C:/Users/corentin/Desktop/CACM/revertFreq.json", "w") as export:
+    with open("../CACM/revertFreq.json", "w") as export:
         export.write(json.dumps(invertFreq, indent=4))
     return invertFreq
 
 
 
 if __name__ == "__main__":
-    if not os.path.isfile("C:/Users/corentin/Desktop/CACM/freq.json"):
+    if not os.path.isfile("../CACM/freq.json"):
         frequencies = buildIndex()
     else:
-        with open("C:/Users/corentin/Desktop/CACM/freq.json", "r") as freq:
+        with open("../CACM/freq.json", "r") as freq:
             frequencies = json.loads(freq.read())
-    if not os.path.isfile("C:/Users/corentin/Desktop/CACM/revertFreq.json"):
+    if not os.path.isfile("../CACM/revertFreq.json"):
         revertFreq = buildReversedIndex(frequencies)
     else:
-        with open("C:/Users/corentin/Desktop/CACM/revertFreq.json", "r") as revF:
+        with open("../CACM/revertFreq.json", "r") as revF:
             revertFreq = json.loads(revF.read())
