@@ -8,16 +8,19 @@ tokenizer = RegexpTokenizer(r'\w+')
 def replacePunct(s):
     return [word.lower() for word in tokenizer.tokenize(s)]
 
+def count_words(common_words, string):
+    return [(word, string.count(word))
+                         for word in string
+                         if word not in common_words
+                         ]
+
 def main(files, common_words):
     dict = {item[0].rstrip(): list(itertools.chain(*([replacePunct(line[1:])
                                for line in item[1:]
                                if line[0] in ["T", "W", "K"]])))
             for item in files}
 
-    frequencies = {key: [(word, dict[key].count(word))
-                         for word in dict[key]
-                         if word not in common_words
-                         ]
+    frequencies = {key: count_words(common_words, dict[key])
                    for key in dict}
 
     with open("../CACM/freq.json", "w") as export:
