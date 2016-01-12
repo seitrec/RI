@@ -10,25 +10,23 @@ tokenizer = RegexpTokenizer(r'\w+')
 def replacePunct(s):
     return [word.lower() for word in tokenizer.tokenize(s)]
 
-
-def count_words(common_words, list_words):
-    return [(word, list_words.count(word))
-            for word in list_words
-            if word not in common_words
-            ]
-
-
-def import_cw():
-    with open("../CACM/common_words", "r") as cw:
-            return replacePunct(cw.read())
-
-
 def buildIndex():
     with open("../CACM/cacm.all", "r") as cacm:
         collection = cacm.read()
         common_words = import_cw()
         files = [item.split("\n.") for item in collection.split(".I ")]
         main(files, common_words)
+
+
+def count_words(common_words, string):
+    dict = {}
+    for word in string:
+        if word not in common_words:
+            if word not in dict:
+                dict[word] = 1
+            else:
+                dict[word] += 1
+    return dict
 
 
 def main(files, common_words):
@@ -45,14 +43,23 @@ def main(files, common_words):
     return frequencies
 
 
+def buildIndex():
+    with open("../CACM/cacm.all", "r") as cacm:
+        collection = cacm.read()
+        with open("../CACM/common_words", "r") as cw:
+            common_words = replacePunct(cw.read())
+            files = [item.split("\n.") for item in collection.split(".I ")]
+            return main(files, common_words)
+
+
 def buildReversedIndex(frequencies):
     invertFreq = {}
     for key in frequencies:
-        for freq in frequencies[key]:
-            if freq[0] not in invertFreq:
-                invertFreq[freq[0]] = [(key, freq[1])]
+        for word in frequencies[key]:
+            if word not in invertFreq:
+                invertFreq[word[0]] = [(key, frequencies[key][word])]
             else:
-                invertFreq[freq[0]] += [(key, freq[1])]
+                invertFreq[word[0]] += [(key, frequencies[key][word])]
     with open("../CACM/revertFreq.json", "w") as export:
         export.write(json.dumps(invertFreq, indent=4))
     return invertFreq
