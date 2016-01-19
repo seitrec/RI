@@ -26,16 +26,16 @@ def projectionQuery(words, ifreq):
                 else:
                     similarity[id] = weight*word_weight
     sortedSimilarity = sorted(similarity.items(), key=operator.itemgetter(1), reverse=False)
-    for doc in sortedSimilarity:
-        threshold = int(sortedSimilarity[-1][1]*0.5)
-        if doc[1]> threshold:
-            print "Doc %s avec un score de %d" % (doc[0], doc[1])
+    #for doc in sortedSimilarity:
+     #   threshold = int(sortedSimilarity[-1][1]*0.5)
+        #if doc[1]> threshold:
+         #   print "Doc %s avec un score de %d" % (doc[0], doc[1])
     return sortedSimilarity
 
 def main(collection, query):
     words = searchToQuery(query)
     freq, ifreq = loadJsons(collection, words)
-    projectionQuery(words, ifreq)
+    return projectionQuery(words, ifreq)
 
 
 

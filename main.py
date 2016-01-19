@@ -66,7 +66,7 @@ def loadJsons(collection, words):
         else:
             with open("../CACM/freq.json", "r") as freq:
                 frequencies = json.loads(freq.read())
-        if not os.path.isfile("../CACM/revertFreqTfidf.json"):
+        if not os.path.isfile("../CACM/revertFreq.json"):
             revertFreq = buildReversedIndex(frequencies)
         else:
             with open("../CACM/revertFreq.json", "r") as revF:

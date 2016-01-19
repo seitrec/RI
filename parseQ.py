@@ -1,7 +1,7 @@
 import argparse
 from main import *
 import vectoriel
-import pprint
+
 
 def parseQueries():
 	with open("../CACM/query.text", "r") as cacm:
@@ -21,7 +21,6 @@ def parseResp():
 			parsed_resp[line[0]] += [line[1]]
 		else:
 			parsed_resp[line[0]] = [line[1]]
-	pprint.pprint(parsed_resp)
 	return parsed_resp
 
 
@@ -32,7 +31,6 @@ def process(collection):
 													  if line[0] =="W"])))
 			for item in queries}
 	for index, qu in parts.iteritems():
-		print(collection, index, " ".join(qu))
 		yield (index, qu, vectoriel.main(collection, " ".join(qu)))
 
 
