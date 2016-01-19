@@ -1,6 +1,7 @@
 import argparse
 from main import *
 import vectoriel
+import pprint
 
 def parseQueries():
 	with open("../CACM/query.text", "r") as cacm:
@@ -10,7 +11,21 @@ def parseQueries():
 			files = [item.split("\n.") for item in collection.split(".I ")]
 			return files
 
-def main(collection):
+def parseResp():
+	parsed_resp = {}
+	with open("../CACM/qrels.text", "r") as qrels:
+		resps = qrels.read()
+		lines = [item.split(" ") for item in resps.split("\n") if item != ""]
+	for line in lines:
+		if line[0] in parsed_resp:
+			parsed_resp[line[0]] += [line[1]]
+		else:
+			parsed_resp[line[0]] = [line[1]]
+	pprint.pprint(parsed_resp)
+	return parsed_resp
+
+
+def process(collection):
 	queries = parseQueries()
 	parts = {item[0].rstrip(): list(itertools.chain(*([replacePunct(line[1:])
 													  for line in item[1:]
@@ -27,4 +42,4 @@ if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Query CACM or WIKI and get vectorial results")
 	parser.add_argument("-c", "--collection", default="CACM", help="The collection we want to query from")
 	args = parser.parse_args()
-	print main(args.collection)
+	print process(args.collection)
