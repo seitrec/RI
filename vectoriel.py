@@ -1,7 +1,5 @@
 import argparse
 import operator
-
-
 from main import *
 
 
@@ -22,9 +20,9 @@ def projectionQuery(words, ifreq):
                 id = document[0]
                 weight = document[1]
                 if id in similarity.keys():
-                    similarity[id] += weight*word_weight
+                    similarity[id] += weight * word_weight
                 else:
-                    similarity[id] = weight*word_weight
+                    similarity[id] = weight * word_weight
     sortedSimilarity = sorted(similarity.items(), key=operator.itemgetter(1), reverse=False)
     #for doc in sortedSimilarity:
      #   threshold = int(sortedSimilarity[-1][1]*0.5)
@@ -32,12 +30,11 @@ def projectionQuery(words, ifreq):
          #   print "Doc %s avec un score de %d" % (doc[0], doc[1])
     return sortedSimilarity
 
+
 def main(collection, query):
     words = searchToQuery(query)
     freq, ifreq = loadJsons(collection, words)
     return projectionQuery(words, ifreq)
-
-
 
 
 if __name__ == "__main__":
@@ -46,6 +43,4 @@ if __name__ == "__main__":
     parser.add_argument("-q", "--query", default="error system", help="The words we want to search")
     args = parser.parse_args()
 
-    main(args.collection, args.query)
-
-
+    buildFrequencies(args.collection, args.query)
