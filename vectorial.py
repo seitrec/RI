@@ -36,6 +36,8 @@ def get_documents_norms(ifreq):
 
 
 def projectionQuery(words, ifreq):
+
+    doc_norms = get_documents_norms(ifreq)
     #take parsed query as input and output the documents with their scores
 
     similarity = {}
@@ -44,27 +46,26 @@ def projectionQuery(words, ifreq):
     norm_query_temp = 0
     for word in words:
         norm_query_temp += words[word]**2
-    norm_query = norm_query_temp**1/2
+    norm_query = norm_query_temp**(0.5)
 
     for word in words:
-        print word
         wordstring = word
-        word_weight = words[word]/norm_query
+        word_weight = words[word]/norm_query #weight normalized
         if wordstring in ifreq:
             wordifreq = ifreq[wordstring]
             for document in wordifreq:
                 id = document[0]
-                norm_doc = 1**(0.5)
-                doc_weight = document[1]/norm_doc
+                norm_doc = doc_norms[id]**(0.5)
+                doc_weight = document[1]/norm_doc #weight normalized
                 if id in similarity.keys():
                     similarity[id] += doc_weight * word_weight
                 else:
                     similarity[id] = doc_weight * word_weight
     sortedSimilarity = sorted(similarity.items(), key=operator.itemgetter(1), reverse=False)
-    for doc in sortedSimilarity:
-        threshold = int(sortedSimilarity[-1][1]*0.5)
-        if doc[1]> threshold:
-            print "Doc %s avec un score de %.2f" % (doc[0], doc[1])
+    #for doc in sortedSimilarity:
+      #  threshold = int(sortedSimilarity[-1][1]*0.5)
+       # if doc[1]> threshold:
+        #    print "Doc %s avec un score de %.2f" % (doc[0], doc[1])
     return sortedSimilarity
 
 

@@ -41,7 +41,7 @@ def compute_results(query_results, query_relevant):
     return nb_queries, precision, recall, AP
 
 if __name__ == "__main__":
-    query_results = parseQueries.process("CACM", "standard") #results from our search engine
+    query_results = parseQueries.process("CACM", "tfidfnorm") #results from our search engine
     query_relevant = parseQueries.parseResults() #relevant document for each queries
     nb_queries, precision, recall, AP = compute_results(query_results, query_relevant)
     #Printing the Precision - Recall Curve

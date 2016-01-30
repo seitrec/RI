@@ -52,4 +52,4 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--inverse", default="standard", help="The type of inverse freq index to use (standard, "
                                                                     "tfidf, tfidfnorm")
     args = parser.parse_args()
-    print process(args.collection, args.inverse)
+    #print process(args.collection, args.inverse)
