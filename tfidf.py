@@ -6,10 +6,10 @@
 # Created: 12/15 - 01/16
 ##############################################################
 
-import argparse
 import math
 import json
 import os
+
 
 def build_CACMtfidf(freq, ifreq):
     N = float(len(freq.keys()))
@@ -57,9 +57,16 @@ def build_WIKItfidf():
             export.write(json.dumps(tfidf, indent=2))
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Query CACM or WIKI and get vectorial results")
-    parser.add_argument("-c", "--collection", default="CACM", help="the collection to use")
-    args = parser.parse_args()
+def build_WIKItfidfNorm(doc_lengths):
+    for j, filename in enumerate(os.listdir("../finalWikiTfidf/")):
+        print(j)
+        with open("../finalWikiTfidf/" + filename, "r") as f:
+            tfidf = json.loads(f.read())
+            tfidf = build_tfidf_norm(tfidf, doc_lengths)
+        with open("../finalWikiTfidfNorm/" + filename, "w") as export:
+            export.write(json.dumps(tfidf, indent=2))
 
-    build_CACMtfidf()
+
+if __name__ == "__main__":
+    build_WIKItfidf()
+    build_WIKItfidfNorm()

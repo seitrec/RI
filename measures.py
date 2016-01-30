@@ -14,7 +14,7 @@ from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import average_precision_score
 
 query_results = parseQ.process("CACM") #results from our search engine
-query_relevant = parseQ.parseResp() #relevant document for each queries
+query_relevant = parseQ.parseResults() #relevant document for each queries
 
 y_scores = []  # list of scores from the search engine for each (query, document) couple
 y_true = []  # 1 if the document is relevant for the query 0 otherwise

@@ -8,7 +8,7 @@
 
 import argparse
 import operator
-from parseCollection import replacePunct, count_words, loadJsons, buildFrequencies
+from parseCollection import replacePunct, count_words, loadJsons
 
 
 def searchToQuery(search):
@@ -21,6 +21,7 @@ def projectionQuery(words, ifreq):
    # print words, ifreq
     similarity = {}
     for word in words:
+        print word
         wordstring = word
         word_weight = words[word]
         if wordstring in ifreq:
@@ -40,16 +41,18 @@ def projectionQuery(words, ifreq):
     return sortedSimilarity
 
 
-def main(collection, query):
+def main(collection, reverseType, query):
     words = searchToQuery(query)
-    freq, ifreq = loadJsons(collection, "tfidf", words)
+    freq, ifreq = loadJsons(collection, reverseType, words)
     return projectionQuery(words, ifreq)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Query CACM or WIKI and get vectorial results")
     parser.add_argument("-c", "--collection", default="CACM", help="The collection we want to query from")
-    parser.add_argument("-q", "--query", default="error system", help="The words we want to search")
+    parser.add_argument("-q", "--query", default="ancient weapon", help="The words we want to search")
+    parser.add_argument("-i", "--inverse", default="standard", help="The type of inverse freq index to use (standard, "
+                                                                    "tfidf, tfidfnorm")
     args = parser.parse_args()
 
-    main(args.collection, args.query)
+    main(args.collection, args.inverse, args.query)

@@ -7,9 +7,10 @@
 ##############################################################
 
 import os
+import json
 from xml.etree import ElementTree
 import unicodedata
-from parseCollection import *
+from parseCollection import replacePunct, count_words
 
 
 def normalize_wiki(open_file):

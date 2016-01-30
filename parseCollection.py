@@ -9,6 +9,7 @@
 import itertools
 import json
 import os.path
+import time
 from nltk.tokenize import RegexpTokenizer
 from tfidf import build_CACMNormtfidf, build_CACMtfidf
 
@@ -149,18 +150,26 @@ def loadCACMJsons(reverseType):
 
 def loadWIKIJsons(words, reverseType):
     """We consider here that wiki indexes are already done. We're not going to build them on the go anyways"""
-    with open("../Finalwiki/countWords.json", "r") as freq:
-        frequencies = json.loads(freq.read())
+    try:
+        with open("../finalWiki/countWords.json", "r") as counts:
+            doc_lengths = json.loads(counts.read())
+    except IOError:
+        doc_lengths = {}
+        print "missing document lengths index"
     print('Loading indexes')
     revertFreq = {}
+    indexes = {"standard": "finalWiki/",
+               "tfidf": "finalWikiTfidf/",
+               "tfidfnorm": "finalWikiTfidfNorm/"}
     for word in words:
         try:
-            with open("../FinalwikiTfidf/" + word[0:2] + ".json", "r") as revF:
+            with open("../" + indexes[reverseType] + word[0:2] + ".json", "r") as revF:
                 part = json.loads(revF.read())
                 revertFreq.update(part)
         except IOError:
-            print "missing indexes"
-    return frequencies, revertFreq
+            print "missing indexes", "../" + indexes[reverseType] + word[0:2] + ".json"
+    print('Indexes loaded')
+    return doc_lengths, revertFreq
 
 
 def loadJsons(collection, reverseType, words):

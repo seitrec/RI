@@ -21,7 +21,7 @@ def parseQueries():
             return files
 
 
-def parseResp():
+def parseResults():
     parsed_resp = {}
     with open("../CACM/qrels.text", "r") as qrels:
         resps = qrels.read()
@@ -35,7 +35,7 @@ def parseResp():
     return parsed_resp
 
 
-def process(collection):
+def process(collection, reverseType):
     queries = parseQueries()
     parts = {item[0].rstrip(): list(itertools.chain(*([replacePunct(line[1:])
                                                        for line in item[1:]
@@ -43,11 +43,13 @@ def process(collection):
              for item in queries}
     for index, qu in parts.iteritems():
         #print(collection, index, " ".join(qu))
-        yield (index, qu, vectorial.main(collection, " ".join(qu)))
+        yield (index, qu, vectorial.main(collection, reverseType, " ".join(qu)))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Query CACM or WIKI and get vectorial results")
     parser.add_argument("-c", "--collection", default="CACM", help="The collection we want to query from")
+    parser.add_argument("-i", "--inverse", default="standard", help="The type of inverse freq index to use (standard, "
+                                                                    "tfidf, tfidfnorm")
     args = parser.parse_args()
-    print process(args.collection)
+    print process(args.collection, args.inverse)
