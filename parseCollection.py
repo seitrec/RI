@@ -11,7 +11,7 @@ import json
 import os.path
 import time
 from nltk.tokenize import RegexpTokenizer
-from tfidf import build_CACMNormtfidf, build_CACMtfidf
+from processTfidf import build_CACMNormtfidf, build_CACMtfidf
 
 tokenizer = RegexpTokenizer(r'\w+')
 
@@ -57,7 +57,7 @@ def buildFrequencies(files, common_words):
     frequencies = {key: count_words(common_words, parts[key])
                    for key in parts}
 
-    with open("../CACM/freq.json", "w") as export:
+    with open("../CACMindexes/freq.json", "w") as export:
         export.write(json.dumps(frequencies, indent=4))
     return frequencies
 
@@ -88,43 +88,43 @@ def buildCACMReversedIndex(frequencies):
                 invertFreq[word] = [(key, frequencies[key][word])]
             else:
                 invertFreq[word] += [(key, frequencies[key][word])]
-    with open("../CACM/revertFreq.json", "w") as export:
+    with open("../CACMindexes/revertFreq.json", "w") as export:
         export.write(json.dumps(invertFreq, indent=4))
     return invertFreq
 
 
 def loadCACMfreq():
-    if not os.path.isfile("../CACM/freq.json"):
+    if not os.path.isfile("../CACMindexes/freq.json"):
         frequencies = buildCACMIndex()
     else:
-        with open("../CACM/freq.json", "r") as freq:
+        with open("../CACMindexes/freq.json", "r") as freq:
             frequencies = json.loads(freq.read())
     return frequencies
 
 
 def loadCACMst(frequencies):
-    if not os.path.isfile("../CACM/revert_freq.json"):
+    if not os.path.isfile("../CACMindexes/revert_freq.json"):
         revert_freq = buildCACMReversedIndex(frequencies)
     else:
-        with open("../CACM/revert_freq.json", "r") as revF:
+        with open("../CACMindexes/revert_freq.json", "r") as revF:
             revert_freq = json.loads(revF.read())
     return revert_freq
 
 
 def loadCACMtfidf(freq, ifreq):
-    if not os.path.isfile("../CACM/revertFreqTfidf.json"):
+    if not os.path.isfile("../CACMindexes/revertFreqTfidf.json"):
         revert_freq = build_CACMtfidf(freq, ifreq)
     else:
-        with open("../CACM/revertFreqTfidf.json", "r") as revF:
+        with open("../CACMindexes/revertFreqTfidf.json", "r") as revF:
             revert_freq = json.loads(revF.read())
     return revert_freq
 
 
 def loadCACMtfidfnorm(freq, tfidf):
-    if not os.path.isfile("../CACM/revertFreqNormTfidf.json"):
+    if not os.path.isfile("../CACMindexes/revertFreqNormTfidf.json"):
         revert_freq = build_CACMNormtfidf(freq, tfidf)
     else:
-        with open("../CACM/revertFreqNormTfidf.json", "r") as revF:
+        with open("../CACMindexes/revertFreqNormTfidf.json", "r") as revF:
             revert_freq = json.loads(revF.read())
     return revert_freq
 
@@ -151,7 +151,7 @@ def loadCACMJsons(reverseType):
 def loadWIKIJsons(words, reverseType):
     """We consider here that wiki indexes are already done. We're not going to build them on the go anyways"""
     try:
-        with open("../finalWiki/countWords.json", "r") as counts:
+        with open("../WIKIindexes/finalWiki/countWords.json", "r") as counts:
             doc_lengths = json.loads(counts.read())
     except IOError:
         doc_lengths = {}
@@ -163,11 +163,11 @@ def loadWIKIJsons(words, reverseType):
                "tfidfnorm": "finalWikiTfidfNorm/"}
     for word in words:
         try:
-            with open("../" + indexes[reverseType] + word[0:2] + ".json", "r") as revF:
+            with open("../WIKIindexes/" + indexes[reverseType] + word[0:2] + ".json", "r") as revF:
                 part = json.loads(revF.read())
                 revertFreq.update(part)
         except IOError:
-            print "missing indexes", "../" + indexes[reverseType] + word[0:2] + ".json"
+            print "missing indexes", "../WIKIindexes/" + indexes[reverseType] + word[0:2] + ".json"
     print('Indexes loaded')
     return doc_lengths, revertFreq
 

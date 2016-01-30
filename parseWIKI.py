@@ -22,16 +22,16 @@ def normalize_wiki(open_file):
 
 
 if __name__ == "__main__":
-    for elem in os.listdir("../wiki"):
+    for elem in os.listdir("../Wiki"):
         print(elem)
-        for i, filename in enumerate(os.listdir("../wiki/" + elem)):
+        for i, filename in enumerate(os.listdir("../Wiki/" + elem)):
             if (i % 1000 == 0):
                 print ("%.2f%%" % (100. * i / 660000))
-            clean_file = normalize_wiki(open("../wiki/" + elem + "/" + filename, "r").read())
+            clean_file = normalize_wiki(open("../Wiki/" + elem + "/" + filename, "r").read())
             with open("../CACM/common_words", "r") as cw:
                 common_words = replacePunct(cw.read())
                 freq = count_words(common_words, clean_file)
-                dump_dir_path = "../wikifreq/" + elem + "/"
+                dump_dir_path = "../WIKIindexes/wikifreq/" + elem + "/"
                 if not os.path.exists(dump_dir_path):
                     os.makedirs(dump_dir_path)
                 with open(dump_dir_path + filename.split(".")[0] + ".json", "w") as dump:

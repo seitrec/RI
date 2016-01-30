@@ -1,6 +1,6 @@
 ##############################################################
 # Name: Boolean
-# Purpose: This modeule is designed to run vectorial queries on either CACM
+# Purpose: This module is designed to run vectorial queries on either CACM
 #          or WIKI collection
 # Author: Damien Peltier & Corentin Seitre
 # Created: 12/15 - 01/16
@@ -15,6 +15,23 @@ def searchToQuery(search):
     with open("../CACM/common_words", "r") as cw:
         common_words = replacePunct(cw.read())
         return count_words(common_words, search.split())
+
+def get_documents_norms(ifreq):
+    """
+    To be used with either tfidf or tfidfnorm
+    :param ifreq:
+    :return:
+    """
+    weights_by_doc = {}
+    for word, docs in ifreq.iteritems():
+        for doc in docs:
+            id = doc[0]
+            weight = doc[1]
+            if id in weights_by_doc:
+                weights_by_doc[id] += [weight*weight]
+            else:
+                weights_by_doc[id] = [weight*weight]
+    return {id: sum(value) for id, value in weights_by_doc.iteritems()}
 
 
 def projectionQuery(words, ifreq):
@@ -34,10 +51,10 @@ def projectionQuery(words, ifreq):
                 else:
                     similarity[id] = weight * word_weight
     sortedSimilarity = sorted(similarity.items(), key=operator.itemgetter(1), reverse=False)
-    #for doc in sortedSimilarity:
-     #   threshold = int(sortedSimilarity[-1][1]*0.5)
-      #  if doc[1]> threshold:
-       #     print "Doc %s avec un score de %d" % (doc[0], doc[1])
+    for doc in sortedSimilarity:
+        threshold = int(sortedSimilarity[-1][1]*0.5)
+        if doc[1]> threshold:
+            print "Doc %s avec un score de %.2f" % (doc[0], doc[1])
     return sortedSimilarity
 
 
@@ -55,4 +72,6 @@ if __name__ == "__main__":
                                                                     "tfidf, tfidfnorm")
     args = parser.parse_args()
 
-    main(args.collection, args.inverse, args.query)
+    #main(args.collection, args.inverse, args.query)
+    freq, ifreq = loadJsons("CACM", "tfidf", [])
+    print get_documents_norms(ifreq)

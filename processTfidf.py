@@ -14,7 +14,7 @@ import os
 def build_CACMtfidf(freq, ifreq):
     N = float(len(freq.keys()))
     tfidf = process_tfidf(ifreq, N)
-    with open("../CACM/revertFreqTfidf.json", "w") as export:
+    with open("../CACMindexes/revertFreqTfidf.json", "w") as export:
         export.write(json.dumps(tfidf, indent=2))
     return tfidf
 
@@ -22,7 +22,7 @@ def build_CACMtfidf(freq, ifreq):
 def build_CACMNormtfidf(freq, tfidf):
     doc_lengths = {key: sum(value for word, value in doc.iteritems()) for key, doc in freq.iteritems()}
     tfidf = build_tfidf_norm(tfidf, doc_lengths)
-    with open("../CACM/revertFreqNormTfidf.json", "w") as export:
+    with open("../CACMindexes/revertFreqNormTfidf.json", "w") as export:
         export.write(json.dumps(tfidf, indent=2))
     return tfidf
 
@@ -35,35 +35,33 @@ def process_tfidf(ifreq, N):
 
 
 def build_tfidf_norm(tfidf, doc_lengths):
-    count = 0
     normtfidf = {}
     for word in tfidf:
         try:
             normtfidf[word] = [(id, freq / doc_lengths[id]) for id, freq in tfidf[word]]
         except (KeyError):
-            count += 1
-    print "count %s/%s" % (count, len(tfidf))
+            pass
     return normtfidf
 
 
 def build_WIKItfidf():
     N = 660000
-    for j, filename in enumerate(os.listdir("../finalWiki/")):
+    for j, filename in enumerate(os.listdir("../WIKIindexes/finalWiki/")):
         print(j)
-        with open("../finalWiki/" + filename, "r") as f:
+        with open("../WIKIindexes/finalWiki/" + filename, "r") as f:
             ifreq = json.loads(f.read())
             tfidf = process_tfidf(ifreq, N)
-        with open("../finalWikiTfidf/" + filename, "w") as export:
+        with open("../WIKIindexes/finalWikiTfidf/" + filename, "w") as export:
             export.write(json.dumps(tfidf, indent=2))
 
 
 def build_WIKItfidfNorm(doc_lengths):
-    for j, filename in enumerate(os.listdir("../finalWikiTfidf/")):
+    for j, filename in enumerate(os.listdir("../WIKIindexes/finalWikiTfidf/")):
         print(j)
-        with open("../finalWikiTfidf/" + filename, "r") as f:
+        with open("../WIKIindexes/finalWikiTfidf/" + filename, "r") as f:
             tfidf = json.loads(f.read())
             tfidf = build_tfidf_norm(tfidf, doc_lengths)
-        with open("../finalWikiTfidfNorm/" + filename, "w") as export:
+        with open("../WIKIindexes/finalWikiTfidfNorm/" + filename, "w") as export:
             export.write(json.dumps(tfidf, indent=2))
 
 

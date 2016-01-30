@@ -11,11 +11,11 @@ import os
 import json
 
 if __name__ == "__main__":
-    for i, filename in enumerate(os.listdir("../invwiki/")):
+    for i, filename in enumerate(os.listdir("../WIKIindexes/invwiki/")):
         alpha = {"0": {}, "_": {}}
         print("%s/67" % i)
         try:
-            with open("../invwiki/" + filename, "r") as inv:
+            with open("../WIKIindexes/invwiki/" + filename, "r") as inv:
                 basic = json.loads(inv.read())
                 for word in basic:
                     pre = word[0:2]
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         except ValueError:
             print filename
         for pre in alpha:
-            dump_dir_path = "../invwikialpha/" + pre + "/"
+            dump_dir_path = "../WIKIindexes/invwikialpha/" + pre + "/"
             if not os.path.exists(dump_dir_path):
                 os.makedirs(dump_dir_path)
             with open(dump_dir_path + filename, "w") as dump:

@@ -1,6 +1,13 @@
-import time
+##############################################################
+# Name: Measures
+# Purpose: This module is designed to measure the performance of
+#          our indexing and querying algorthms
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 from parseCollection import *
-from parseQ import *
+from parseQueries import *
 
 
 def time_indexing_CACM():
@@ -36,3 +43,6 @@ if __name__ == "__main__":
     time_queries("CACM", "standard")
     time_queries("CACM", "tfidf")
     time_queries("CACM", "tfidfnorm")
+    time_queries("WIKI", "standard")
+    time_queries("WIKI", "tfidf")
+    time_queries("WIKI", "tfidfnorm")
