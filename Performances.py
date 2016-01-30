@@ -11,6 +11,8 @@ from parseQueries import *
 
 
 def time_indexing_CACM():
+    if not os.path.exists("../CACMindexes/"):
+        os.mkdir("../CACMindexes/")
     start_time = time.time()
     with open("../Performances/Indexing-CACM-%s.txt" % (start_time), "w") as timelogs:
         frequencies = loadCACMfreq()
@@ -24,6 +26,8 @@ def time_indexing_CACM():
 
 
 def time_queries(collection, reverseType):
+    if not os.path.exists("../CACMindexes/"):
+        os.mkdir("../CACMindexes/")
     queries = parseQueries()
     parts = {item[0].rstrip(): list(itertools.chain(*([replacePunct(line[1:])
                                                        for line in item[1:]

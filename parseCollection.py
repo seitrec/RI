@@ -103,6 +103,8 @@ def loadCACMfreq():
 
 
 def loadCACMst(frequencies):
+    if not os.path.exists("../CACMindexes/"):
+        os.mkdir("../CACMindexes/")
     if not os.path.isfile("../CACMindexes/revert_freq.json"):
         revert_freq = buildCACMReversedIndex(frequencies)
     else:
@@ -150,6 +152,8 @@ def loadCACMJsons(reverseType):
 
 def loadWIKIJsons(words, reverseType):
     """We consider here that wiki indexes are already done. We're not going to build them on the go anyways"""
+    if not os.path.exists("../WIKIindexes/"):
+        os.mkdir("../WIKIindexes/")
     try:
         with open("../WIKIindexes/finalWiki/countWords.json", "r") as counts:
             doc_lengths = json.loads(counts.read())
