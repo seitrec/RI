@@ -18,6 +18,7 @@ def searchToQuery(search):
 
 
 def projectionQuery(words, ifreq):
+    print words, ifreq
     similarity = {}
     for word in words:
         wordstring = word
@@ -32,10 +33,10 @@ def projectionQuery(words, ifreq):
                 else:
                     similarity[id] = weight * word_weight
     sortedSimilarity = sorted(similarity.items(), key=operator.itemgetter(1), reverse=False)
-    #for doc in sortedSimilarity:
-     #   threshold = int(sortedSimilarity[-1][1]*0.5)
-        #if doc[1]> threshold:
-         #   print "Doc %s avec un score de %d" % (doc[0], doc[1])
+    for doc in sortedSimilarity:
+        threshold = int(sortedSimilarity[-1][1]*0.5)
+        if doc[1]> threshold:
+            print "Doc %s avec un score de %d" % (doc[0], doc[1])
     return sortedSimilarity
 
 
@@ -51,4 +52,4 @@ if __name__ == "__main__":
     parser.add_argument("-q", "--query", default="error system", help="The words we want to search")
     args = parser.parse_args()
 
-    buildFrequencies(args.collection, args.query)
+    main(args.collection, args.query)

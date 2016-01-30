@@ -43,7 +43,7 @@ def count_words(common_words, string):
 
 def buildFrequencies(files, common_words):
     """
-    Count and order the occurences of the words in the CACM collection
+    Count and order the occurences of the words in files
     :param files: CACM collection
     :param common_words: dictionary of stop words (not to be taken into account)
     :return frequencies: (dict) doc_id: {word: frequency}
@@ -92,6 +92,42 @@ def buildCACMReversedIndex(frequencies):
     return invertFreq
 
 
+def loadCACMfreq():
+    if not os.path.isfile("../CACM/freq.json"):
+        frequencies = buildCACMIndex()
+    else:
+        with open("../CACM/freq.json", "r") as freq:
+            frequencies = json.loads(freq.read())
+    return frequencies
+
+
+def loadCACMst(frequencies):
+    if not os.path.isfile("../CACM/revert_freq.json"):
+        revert_freq = buildCACMReversedIndex(frequencies)
+    else:
+        with open("../CACM/revert_freq.json", "r") as revF:
+            revert_freq = json.loads(revF.read())
+    return revert_freq
+
+
+def loadCACMtfidf(freq, ifreq):
+    if not os.path.isfile("../CACM/revertFreqTfidf.json"):
+        revert_freq = build_CACMtfidf(freq, ifreq)
+    else:
+        with open("../CACM/revertFreqTfidf.json", "r") as revF:
+            revert_freq = json.loads(revF.read())
+    return revert_freq
+
+
+def loadCACMtfidfnorm(freq, tfidf):
+    if not os.path.isfile("../CACM/revertFreqNormTfidf.json"):
+        revert_freq = build_CACMNormtfidf(freq, tfidf)
+    else:
+        with open("../CACM/revertFreqNormTfidf.json", "r") as revF:
+            revert_freq = json.loads(revF.read())
+    return revert_freq
+
+
 def loadCACMJsons(reverseType):
     """
     Load/Build if necessary CACM indexes
@@ -101,30 +137,13 @@ def loadCACMJsons(reverseType):
     :return frequencies: (dict) doc_id: {word: occurences]
     :return revert_freq: (dict) word: doc occurencies (standard, tfidf, or tfidfnorm
     """
-    frequencies, revert_freq = {}, {}
-    if not os.path.isfile("../CACM/freq.json"):
-        frequencies = buildCACMIndex()
-    else:
-        with open("../CACM/freq.json", "r") as freq:
-            frequencies = json.loads(freq.read())
+    frequencies, revert_freq = loadCACMfreq(), {}
     if reverseType == "standard":
-        if not os.path.isfile("../CACM/revert_freq.json"):
-            revert_freq = buildCACMReversedIndex(frequencies)
-        else:
-            with open("../CACM/revert_freq.json", "r") as revF:
-                revert_freq = json.loads(revF.read())
+        return frequencies, loadCACMst(frequencies)
     elif reverseType == "tfidf":
-        if not os.path.isfile("../CACM/revertFreqTfidf.json"):
-            revert_freq = build_CACMtfidf()
-        else:
-            with open("../CACM/revertFreqTfidf.json", "r") as revF:
-                revert_freq = json.loads(revF.read())
+        return frequencies, loadCACMtfidf(frequencies, loadCACMst(frequencies))
     elif reverseType == "tfidfnorm":
-        if not os.path.isfile("../CACM/revertFreqNormTfidf.json"):
-            revert_freq = build_CACMNormtfidf()
-        else:
-            with open("../CACM/revertFreqNormTfidf.json", "r") as revF:
-                revert_freq = json.loads(revF.read())
+        return frequencies, loadCACMtfidfnorm(frequencies, loadCACMtfidf(frequencies, loadCACMst(frequencies)))
     return frequencies, revert_freq
 
 

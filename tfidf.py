@@ -10,11 +10,8 @@ import argparse
 import math
 import json
 import os
-from parseCollection import *
 
-
-def build_CACMtfidf():
-    freq, ifreq = loadCACMJsons("standard")
+def build_CACMtfidf(freq, ifreq):
     N = float(len(freq.keys()))
     tfidf = process_tfidf(ifreq, N)
     with open("../CACM/revertFreqTfidf.json", "w") as export:
@@ -22,8 +19,7 @@ def build_CACMtfidf():
     return tfidf
 
 
-def build_CACMNormtfidf():
-    freq, tfidf = loadCACMJsons("tfidf")
+def build_CACMNormtfidf(freq, tfidf):
     doc_lengths = {key: sum(value for word, value in doc.iteritems()) for key, doc in freq.iteritems()}
     tfidf = build_tfidf_norm(tfidf, doc_lengths)
     with open("../CACM/revertFreqNormTfidf.json", "w") as export:
