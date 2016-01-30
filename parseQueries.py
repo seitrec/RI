@@ -9,8 +9,7 @@ from parseCollection import replacePunct
 import vectorial
 import itertools
 import argparse
-import pprint
-    
+
 
 
 def parseQueries():

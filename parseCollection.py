@@ -9,7 +9,6 @@
 import itertools
 import json
 import os.path
-import time
 from nltk.tokenize import RegexpTokenizer
 from processTfidf import build_CACMNormtfidf, build_CACMtfidf
 

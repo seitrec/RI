@@ -48,7 +48,7 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--collection", default="CACM", help="The collection we want to query from")
     parser.add_argument("-q", "--query", default="(A|..|N)&(..)&..&(M|..|Z)",
                         help="The words we want to search (for several words use '' ). \
-						Your query must be of the form: (A|..|N)&(..)&..&(M|..|Z) \
+						Your query must be of the form n-SAT: (A|..|N)&(..)&..&(M|..|Z) \
 						and can use ^ as a specific NOT to a word. This is always possible (CNF)\
 						Absolutely no space (' ') should be used")
     args = parser.parse_args()

@@ -83,6 +83,5 @@ if __name__ == "__main__":
                                                                     "tfidf, tfidfnorm")
     args = parser.parse_args()
 
-    #main(args.collection, args.inverse, args.query)
-    freq, ifreq = loadJsons("CACM", "tfidf", [])
-    print get_documents_norms(ifreq)
+    main(args.collection, args.inverse, args.query)
+
