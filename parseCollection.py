@@ -1,9 +1,16 @@
-import pprint
+##############################################################
+# Name: ParseCollection
+# Purpose: This modeule is designed to parse the CACM collection,
+#          and create tools to build frequency and inverse frequency indexes
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import itertools
 import json
 import os.path
 from nltk.tokenize import RegexpTokenizer
-from tfidf import *
+from tfidf import build_CACMNormtfidf, build_CACMtfidf
 
 tokenizer = RegexpTokenizer(r'\w+')
 
@@ -127,13 +134,13 @@ def loadWIKIJsons(words, reverseType):
         frequencies = json.loads(freq.read())
     print('Loading indexes')
     revertFreq = {}
-    try:
-        for word in words:
-            with open("../FinalwikiTfidf/" + word[0] + ".json", "r") as revF:
+    for word in words:
+        try:
+            with open("../FinalwikiTfidf/" + word[0:2] + ".json", "r") as revF:
                 part = json.loads(revF.read())
                 revertFreq.update(part)
-    except IOError:
-        print "missing indexes"
+        except IOError:
+            print "missing indexes"
     return frequencies, revertFreq
 
 

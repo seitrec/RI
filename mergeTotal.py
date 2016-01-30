@@ -1,3 +1,11 @@
+##############################################################
+# Name: MergeTotal
+# Purpose: This modeule is supposed to merge all partial indexes to have a final
+#          one containing all the data (I had to try... but even 16Gigs of RAM isn't enough !
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import os
 import json
 

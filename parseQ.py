@@ -1,14 +1,22 @@
-import argparse
-from main import *
-import vectoriel
+##############################################################
+# Name: ParseQ
+# Purpose: This modeule is designed to parse the given example queries
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
 
+from parseCollection import replacePunct
+import vectorial
+import itertools
+import argparse
+import pprint
+    
 
 
 def parseQueries():
     with open("../CACM/query.text", "r") as cacm:
         collection = cacm.read()
         with open("../CACM/common_words", "r") as cw:
-            common_words = replacePunct(cw.read())
             files = [item.split("\n.") for item in collection.split(".I ")]
             return files
 
@@ -35,7 +43,7 @@ def process(collection):
              for item in queries}
     for index, qu in parts.iteritems():
         print(collection, index, " ".join(qu))
-        yield (index, qu, vectoriel.main(collection, " ".join(qu)))
+        yield (index, qu, vectorial.main(collection, " ".join(qu)))
 
 
 if __name__ == "__main__":

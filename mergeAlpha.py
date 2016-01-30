@@ -1,14 +1,23 @@
+##############################################################
+# Name: MergeAlpha
+# Purpose: This module is designed to merge partial inverse frequency indexes
+#          together, to have a final state of 678 indexes (26*26 for the alphabetical,
+#          one numerical, and one for others)
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import os
 import json
 
 if __name__ == "__main__":
     for i, dirname in enumerate(os.listdir("../invwikialpha/")):
-        print("%s/28" % i)
+        # Yup, 678 folders, 26*26 + 2
+        print("%s/677" % i)
         final_dict = {}
         for j, filename in enumerate(os.listdir("../invwikialpha/" + dirname)):
             with open("../invwikialpha/" + dirname + "/" + filename, "r") as f:
                 part = json.loads(f.read())
-                print(j)
                 for key, value in part.iteritems():
                     if key in final_dict:
                         final_dict[key] += value

@@ -1,6 +1,14 @@
+##############################################################
+# Name: Boolean
+# Purpose: This modeule is designed to run vectorial queries on either CACM
+#          or WIKI collection
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import argparse
 import operator
-from main import *
+from parseCollection import replacePunct, count_words, loadJsons, buildFrequencies
 
 
 def searchToQuery(search):

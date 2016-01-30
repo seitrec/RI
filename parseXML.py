@@ -1,7 +1,15 @@
+##############################################################
+# Name: parseXML
+# Purpose: This modeule is designed to parse XML files in order
+#          to keep only the real content
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import os
 from xml.etree import ElementTree
 import unicodedata
-from main import *
+from parseCollection import *
 
 
 def normalize_wiki(open_file):

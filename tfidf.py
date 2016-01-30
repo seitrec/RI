@@ -1,6 +1,16 @@
+##############################################################
+# Name: Tfidf
+# Purpose: This modeule is designed to build tfidf indexes from
+#          standard inverse frequency indexes and other usefull information
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import argparse
 import math
-from main import *
+import json
+import os
+from parseCollection import loadCACMJsons
 
 
 def build_CACMtfidf():
@@ -21,17 +31,6 @@ def build_CACMNormtfidf():
     return tfidf
 
 
-def build_WIKItfidf():
-    N = 660000
-    for j, filename in enumerate(os.listdir("../finalWiki/")):
-        print(j)
-        with open("../finalWiki/" + filename, "r") as f:
-            ifreq = json.loads(f.read())
-            tfidf = process_tfidf(ifreq, N)
-        with open("../finalWikiTfidf/" + filename, "w") as export:
-            export.write(json.dumps(tfidf, indent=2))
-
-
 def process_tfidf(ifreq, N):
     idfdict = {}
     for word in ifreq:
@@ -49,6 +48,17 @@ def build_tfidf_norm(tfidf, doc_lengths):
             count += 1
     print "count %s/%s" % (count, len(tfidf))
     return normtfidf
+
+
+def build_WIKItfidf():
+    N = 660000
+    for j, filename in enumerate(os.listdir("../finalWiki/")):
+        print(j)
+        with open("../finalWiki/" + filename, "r") as f:
+            ifreq = json.loads(f.read())
+            tfidf = process_tfidf(ifreq, N)
+        with open("../finalWikiTfidf/" + filename, "w") as export:
+            export.write(json.dumps(tfidf, indent=2))
 
 
 if __name__ == "__main__":

@@ -1,7 +1,13 @@
+##############################################################
+# Name: NbWords
+# Purpose: This modeule is designed to build an index of the
+#          number of words in each file from the WIKI collection
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import os
-from xml.etree import ElementTree
-import unicodedata
-from main import *
+from parseCollection import *
 from parseXML import normalize_wiki
 
 counts = {}

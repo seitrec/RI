@@ -1,3 +1,11 @@
+##############################################################
+# Name: Measures
+# Purpose: This modeule is designed to measure the performance and results
+#          of our algorithms
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
 import parseQ
 import json
 import pprint

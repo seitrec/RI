@@ -1,4 +1,12 @@
-from main import loadJsons
+##############################################################
+# Name: Boolean
+# Purpose: This modeule is designed to run boolean queries on either CACM
+#          or WIKI collection
+# Author: Damien Peltier & Corentin Seitre
+# Created: 12/15 - 01/16
+##############################################################
+
+from parseCollection import loadJsons
 import argparse
 
 
