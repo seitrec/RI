@@ -28,8 +28,8 @@ for result in query_results:
             else:
                 y_true.append(0)
 
-print(y_true)
-print(y_scores)
+print(len(y_true))
+print(len(y_scores))
 
 
 

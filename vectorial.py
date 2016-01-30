@@ -41,7 +41,7 @@ def projectionQuery(words, ifreq):
 
 def main(collection, query):
     words = searchToQuery(query)
-    freq, ifreq = loadJsons(collection, words)
+    freq, ifreq = loadJsons(collection, "tfidf", words)
     return projectionQuery(words, ifreq)
 
 

@@ -31,7 +31,7 @@ def parseResp():
             parsed_resp[line[0]] += [line[1]]
         else:
             parsed_resp[line[0]] = [line[1]]
-    pprint.pprint(parsed_resp)
+    #pprint.pprint(parsed_resp)
     return parsed_resp
 
 
@@ -42,7 +42,7 @@ def process(collection):
                                                        if line[0] == "W"])))
              for item in queries}
     for index, qu in parts.iteritems():
-        print(collection, index, " ".join(qu))
+        #print(collection, index, " ".join(qu))
         yield (index, qu, vectorial.main(collection, " ".join(qu)))
 
 

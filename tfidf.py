@@ -10,7 +10,7 @@ import argparse
 import math
 import json
 import os
-from parseCollection import loadCACMJsons
+from parseCollection import *
 
 
 def build_CACMtfidf():
