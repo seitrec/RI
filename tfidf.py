@@ -28,10 +28,10 @@ def build_CACMNormtfidf(freq, tfidf):
 
 
 def process_tfidf(ifreq, N):
-    idfdict = {}
+    tfidfdict = {}
     for word in ifreq:
-        idfdict[word] = [(doc[0], doc[1] * math.log(N / len(ifreq[word]))) for doc in ifreq[word]]
-    return idfdict
+        tfidfdict[word] = [(doc[0], doc[1] * math.log(N / len(ifreq[word]))) for doc in ifreq[word]]
+    return tfidfdict
 
 
 def build_tfidf_norm(tfidf, doc_lengths):
