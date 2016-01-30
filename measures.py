@@ -7,6 +7,7 @@
 ##############################################################
 
 import parseQueries
+import argparse
 import matplotlib.pyplot as plt
 from sklearn.metrics import precision_recall_curve
 from sklearn.metrics import average_precision_score
@@ -41,7 +42,11 @@ def compute_results(query_results, query_relevant):
     return nb_queries, precision, recall, AP
 
 if __name__ == "__main__":
-    query_results = parseQueries.process("CACM", "tfidfnorm") #results from our search engine
+    parser = argparse.ArgumentParser(description="Measures results of our vectorial algo on a test batch")
+    parser.add_argument("-c", "--collection", default="CACM", help="The collection we want to query from")
+    parser.add_argument("-i", "--inverse", default="tfidf", help="Measure used for the test (standard, tfidf, tfidfnorm")
+    args = parser.parse_args()
+    query_results = parseQueries.process(args.collection, args.inverse) #results from our search engine
     query_relevant = parseQueries.parseResults() #relevant document for each queries
     nb_queries, precision, recall, AP = compute_results(query_results, query_relevant)
     #Printing the Precision - Recall Curve

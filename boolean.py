@@ -46,10 +46,10 @@ def find_documents(parsed_query, freq, ifreq):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Query CACM or WIKI and get boolean results")
     parser.add_argument("-c", "--collection", default="CACM", help="The collection we want to query from")
-    parser.add_argument("-q", "--query", default="(A|..|N)&(..)&..&(M|..|Z)",
+    parser.add_argument("-q", "--query", default="(A|B)&(C|^D)",
                         help="The words we want to search (for several words use '' ). \
 						Your query must be of the form n-SAT: (A|..|N)&(..)&..&(M|..|Z) \
-						and can use ^ as a specific NOT to a word. This is always possible (CNF)\
+						and can use ^ as a specific NOT to a word.\
 						Absolutely no space (' ') should be used")
     args = parser.parse_args()
     query = args.query
